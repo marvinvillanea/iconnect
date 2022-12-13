@@ -49,7 +49,7 @@ if($islogin){
     $cnum = $info["cnum"];
 
     if($action == "2"){
-        $sms_message = 'You`re hired, Hello '.$fullname.', We see your resume and you have good potential for this kind of job '.$job_name.' , Please contact us on '.$company_cnum.'. - '.$company_name.'.';
+        $sms_message = 'You`re hired, Hello '.$fullname.', We see your resume and you have good potential for this kind of job '.$job_name.' , Please contact us on '.$company_cnum.'. - '.$company_name.'. And congratulation!....... please be ready for your interview';
 
         createNotify($con, $info["applicantsid"], $sms_message, 0);
     }elseif($action == "3"){

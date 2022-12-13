@@ -156,6 +156,51 @@ if($islogin == true){
             <?php include '../footer.php'?>
         </div>
     <?php } ?>
+
+
+     <div id="modal_agreement" class="modal fade" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="false" >
+         <div class="modal-dialog">
+           <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <p class="terms"><span class="company_name">LocalMJob</span> <b>User Agreement and Privacy Policy.</b>  </p>
+             </div>
+             <div class="modal-body">
+                <p>San Manuel Isabela provides a job referral service for job seekers and prospective employers, whereby employers may post information about their current  job and internship listings on the  online system. This system, 
+                known as "joselasammanuzon.com," allows job seekers to access those listings.</p>
+                 <p>The administrator shall not be responsible to anyone who posts or accesses information or otherwise uses joselasammanuzon.com 
+                    for any direct or indirect harm, damage or loss incurred in connection with such use, 
+                    regardless of the nature of the alleged harm, damage or loss or corresponding demand, 
+                    claim or cause of action. Without limiting the foregoing, the administrator expressly disclaims 
+                    any responsibility or obligation to assess or determine the suitability of any individual seeking employment, 
+                    any potential employer, or any potential employment situation. </p>
+                <p>By using the joselasammanuzon.com service as a student or prospective employer, you agree to defend, 
+                    indemnify and hold harmless the administrator and its employees and agents with respect to any claims made 
+                    against the administrator in connection with your use of the service.</p>
+                <p>When using joselasammanuzon.com, your personal information will not be released by the admin staff to an employer 
+                    identified on the system unless and until you do one or more of the following:</p>
+                <p>1. Apply for a job/internship;</p>
+                <p>2. Select the option to allow employers to view your profile.</p>
+                <p>Should you apply for a part-time job or internship or select the option to allow employers to view your profile, all information contained within your  profile will be viewable to the employer(s), including your resume, address, email, phone number, work authorization, graduation date, and GPA.
+                    </p>
+                <p><b>User Agreement</b></p>
+                <p>By activating your joselasammanuzon.com account to post or retrieve information or to engage in 
+                    employment activities, you shall be deemed to understand and agree to the above terms and conditions, 
+                    including but not limited to the disclaimer of administrator liability and the indemnification provision.</p>
+             </div>
+             <div class="modal-footer">
+                
+                <input type="checkbox" name="accept_condition" id="accept_condition" class="accept_condition" value="accept"> 
+                <label id="accept_condition">Accept All the Agreement and Privacy Policy </label> <br>
+                  <input type="checkbox" name="accept_condition" id="accept_condition"  class="accept_condition" value="decline"> 
+                <label id="accept_condition">Decline All the Agreement and Privacy Policy </label>
+             </div>
+           </div>
+           <!-- /.modal-content -->
+         </div>
+         <!-- /.modal-dialog -->
+   </div>
+
 </body>
 </html>
 
@@ -216,4 +261,21 @@ $(document).ready(function() {
   $('div.setup-panel div a.btn-primary').trigger('click');
 });
 
+function showMOdalAgreement(){
+    $('#modal_agreement').modal('show');
+
+}
+  // $('[name="accept_condition"]').change(function()
+  // {
+  //   if ($(this).is(':checked')) {
+  //      // Do something...
+  //      alert('You can rock now...');
+  //   } else {
+
+  //   };
+  // });
+ $('.accept_condition').click(function() {
+        $('.accept_condition').not(this).prop('checked', false);
+         $('#modal_agreement').modal('hide');
+    });
 </script>

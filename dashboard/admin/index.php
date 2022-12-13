@@ -125,7 +125,10 @@ if($islogin){
     
                 $load_accounts = mysqli_query($con,"SELECT * FROM `tbl_accounts` WHERE type = $account_type");
             }
-        }else{
+        } elseif(value("sub") == "pending" && value("page") == "accounts"){ 
+            $load_accounts = mysqli_query($con,"SELECT * FROM `tbl_accounts` WHERE status_id = 0");
+        }
+        else{
             $filter = "all";
             $load_accounts = mysqli_query($con,"SELECT * FROM `tbl_accounts`");
         }
@@ -223,6 +226,9 @@ if($islogin){
                     </div>
                     <div class="profile_box_footer">
                         <a href="?page=hire&sub=applicants" class="btn_logout">Applicants</a>
+                    </div>
+                    <div class="profile_box_footer">
+                        <a href="?page=accounts&sub=pending" class="btn_logout">Pending Accounts</a>
                     </div>
                     <div class="profile_box_footer">
                         <a href="?page=accounts" class="btn_logout">Accounts</a>
@@ -644,6 +650,11 @@ if($islogin){
                             <i class="fa fa-list"></i>
                             <p class="name">List</p>
                         </a>
+                        <br>
+                         <a href="?page=accounts&sub=pending" <?= (value("sub") == "pending") ? 'class="active"' : "" ?>>
+                            <i class="fa fa-list"></i>
+                            <p class="name">Pending Accounts</p>
+                        </a>
                     </div>
                     <div class="content">
                         <div class="showcase" id="showcase_sub_<?= value("sub") ?>">
@@ -691,6 +702,23 @@ if($islogin){
                                                             <span class="label">Created at : </span>
                                                             <?= date("m/d/Y",strtotime($row["created_at"]))?>
                                                         </p>
+                                                        <p class="posted_at">
+                                                            <span class="label">Last Login : </span>
+                                                            <?= date("m/d/Y",strtotime($row["updated_at"]))?>
+                                                        </p>
+                                                        <p class="posted_at">
+                                                            <span class="label">Status: </span>
+                                                            <?php 
+                                                            if($row["status_id"] == 0){
+                                                                echo "<span style='color:blue'>PENDING</span>";
+                                                            }  elseif($row["status_id"] == 1 ){
+                                                                echo "<span style='color:green'>ACTIVE</span>";
+                                                            } else {
+                                                                echo "<span style='color:red'>NOT ACTIVE</span>";
+                                                            }
+                                                            ?>
+                                                        </p>
+                                                        <button type="button" id="<?php  echo $row["id"]?>" onclick="deleteAccount(this.id)"  style="color: white; padding:10px; background-color: #36344d; padding-left: 30px; padding-right: 30px;border-radius: 10px;">DELETE</button>
                                                     </div>
                                                 </div>
                                             <?php } ?>
@@ -756,6 +784,61 @@ if($islogin){
                                         </form>
                                     </div>
                                 </div>
+                            <?php }elseif(value("sub") == "pending"){?>
+                                <div class="container">
+                                    <div class="container_title">
+                                        <div class="title">
+                                            Accounts
+                                        </div>
+                                    </div>
+                                    <div class="container_body">
+                                        <?php if(hasResult($load_accounts)){?>
+                                            <?php while($row = mysqli_fetch_assoc($load_accounts)){?>
+                                                <div class="box">
+                                                    <div class="text">
+                                                        <p class="s_name">
+                                                            <span class="label">Full name : </span>
+                                                            <?= $row['firstname']; ?> <?= $row['lastname']; ?>
+                                                        </p>
+                                                        <p class="posted_at">
+                                                            <span class="label">Level : </span>
+                                                            <?php if($row["type"] == 1){?>
+                                                                    Admin
+                                                                <?php }elseif($row["type"] == 2){?>
+                                                                    Company
+                                                                <?php }elseif($row["type"] == 3){?>
+                                                                    Client
+                                                                <?php }else{ echo "Unknown"; } ?>
+                                                        </p>
+                                                        <p class="posted_at">
+                                                            <span class="label">Age : </span>
+                                                            <?= $row["age"]?>
+                                                        </p>
+                                                        <p class="address">
+                                                            <span class="label">Address : </span>
+                                                            <?= $row['address']; ?>
+                                                        </p>
+                                                        <p class="posted_at">
+                                                            <span class="label">Created at : </span>
+                                                            <?= date("m/d/Y",strtotime($row["created_at"]))?>
+                                                        </p>
+                                                        <p class="posted_at">
+                                                            <span class="label">Last Login : </span>
+                                                            <?= date("m/d/Y",strtotime($row["updated_at"]))?>
+                                                        </p>
+                                                        <button type="button" id="<?php  echo $row["id"]?>" onclick="updateAccountStatus(this.id, this.name)" name="3"  style="color: white; padding:10px; background-color: #36344d; padding-left: 30px; padding-right: 30px;border-radius: 10px;">DECLINE</button>
+                                                        <button type="button" id="<?php  echo $row["id"]?>" onclick="updateAccountStatus(this.id,this.name)" name="1"   style="color: white; padding:10px; background-color: #36344d; padding-left: 30px; padding-right: 30px;border-radius: 10px;">ACCEPT</button>
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
+                                        <?php }else{?>
+                                            <div class="showcase" >
+                                                <img src="./assets/empty.png" alt="empty" width="200">
+                                                <p>No Pending Account</p>
+                                            </div>
+                                        <?php } ?>
+                                    </div>
+                                </div>
                             <?php }else{ navigate("?page=accounts&sub=list"); }?>
                         </div>                
                     </div>
@@ -765,3 +848,36 @@ if($islogin){
     </div>
 </body>
 </html>
+
+<script type="text/javascript">
+    function updateAccountStatus(id, status){
+        // alert(id);
+         $.ajax({
+            url : "./routes/confirmationStatus.php",
+            method: "post",
+            data : {
+                id : id , status: status
+            },
+            success: (res) => {
+                console.log(res)
+                if(res.success){
+                    Swal.fire(
+                        'Success',
+                        `${res.message}`,
+                        'success'
+                    ) 
+                    setTimeout(() => {
+                        window.location.href = "?page=accounts&sub=pending"
+                    }, 500);
+                }else{
+                    Swal.fire(
+                        'Failed',
+                        `${res.message}`,
+                        'error'
+                    )
+                }
+            }
+        });
+        
+    }
+</script>

@@ -102,7 +102,7 @@
                        <label class="control-label">Password</label>
                        <input  required="required" class="form-control" type="password" name="password" value="">
                      </div>
-                      <p class="terms">By clicking Agree & Join, you agree to the <span class="company_name">LocalMJob</span> <a href="">User Agreement</a> and <a href="">Privacy Policy</a>.</p>
+                      <p class="terms">By clicking Agree & Join, you agree to the <span class="company_name">LocalMJob</span> <a onclick="showMOdalAgreement()">User Agreement</a> and <a onclick="showMOdalAgreement()">Privacy Policy</a>.</p>
                       <button class="btn btn-primary prevBtn btn-lg pull-left" type="button">Back</button>
                      <button class="btn btn-primary  btn-lg pull-right" type="submit">Agree & Join</button>
                    </div>

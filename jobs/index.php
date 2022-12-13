@@ -107,7 +107,7 @@ if(form("search")){
         <?php include '../header.php' ?>
         <div class="body_search">
             <div class="container_search">
-                <h1>Search the for job that you looking for.</h1>
+                <h1>Search a job that you looking for!</h1>
                 <form action="" class="search_form" method="get">
                     <div class="field">
                         <i class="fa fa-search"></i>

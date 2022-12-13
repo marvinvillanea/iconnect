@@ -628,6 +628,7 @@ form .button_container .button{
     flex: 1;
     padding: 1rem;
 }
+
 #showcase_sub_list{
     display: flex;
     flex-direction: column;
@@ -706,6 +707,89 @@ form .button_container .button{
 #showcase_sub_list .btn_delete:hover{
     background: #E26178;
 }
+
+
+
+#showcase_sub_pending{
+    display: flex;
+    flex-direction: column;
+}
+#showcase_sub_pending .t1{
+    margin-bottom: 2rem;
+}
+#showcase_sub_pending .container{
+    background: white;
+    border-radius: .5rem .5rem 0 0;
+    border: 1px rgb(204, 204, 204) solid;
+}
+#showcase_sub_pending .container .container_title{
+    color: #623ADA;
+    padding: 1rem;
+    border-bottom: 1px rgb(204, 204, 204) solid;
+    display: flex;
+    justify-content: space-between;
+}
+#showcase_sub_pending .container .container_title .filter{
+    display:flex;
+    gap: .5rem;
+}
+#showcase_sub_pending .container .container_title .filter a{
+    text-decoration: none;
+    color: black;
+}
+#showcase_sub_pending .container .container_title .filter a:hover{
+    color: #623ADA;
+}
+#showcase_sub_pending .container .container_title .filter a.active{
+    color: #623ADA;
+}
+#showcase_sub_pending .container .container_body{
+    background: white;
+}
+#showcase_sub_pending .container .container_body .showcase{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#showcase_sub_pending .container .container_body .box{
+    display: flex;
+    align-items: center;
+    color: black;
+    padding: 1rem;
+    border-bottom: 1px rgb(204, 204, 204) dashed;
+}
+#showcase_sub_pending .container .container_body .box:last-child{
+    border-bottom: none;
+}
+#showcase_sub_pending .container .container_body .box .text{
+    flex: 1;
+}
+#showcase_sub_pending .container .container_body .box .text .name{
+    font-size: 1.5rem;
+}
+#showcase_sub_pending .container .container_body .box .text .salary_range{
+    font-size: 1.2rem;
+}
+#showcase_sub_pending .container .container_body .box .text .posted_at{
+    font-size: 1rem;
+}
+#showcase_sub_pending .container .container_body .box i{
+    font-size: 2rem;
+    margin-right: 1rem;
+}
+#showcase_sub_pending .btn_delete{
+    width: 100%;
+    margin-top: .5rem;
+    height: 50px;
+    color: white;
+    background: #FF5876;
+    border-radius: .5rem;
+}
+#showcase_sub_list .btn_delete:hover{
+    background: #E26178;
+}
+
+
 .company_logo_preview{
     width: 150px;
     height: 150px;
