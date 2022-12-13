@@ -880,4 +880,34 @@ if($islogin){
         });
         
     }
+
+    function deleteAccount(id) {
+         $.ajax({
+            url : "./routes/delete_account.php",
+            method: "post",
+            data : {
+                id : id , status: status
+            },
+            success: (res) => {
+                console.log(res)
+                if(res.success){
+                    Swal.fire(
+                        'Success',
+                        `${res.message}`,
+                        'success'
+                    ) 
+                    setTimeout(() => {
+                        window.location.href = "?page=accounts&sub=list"
+                    }, 500);
+                }else{
+                    Swal.fire(
+                        'Failed',
+                        `${res.message}`,
+                        'error'
+                    )
+                }
+            }
+        });
+        
+    }
 </script>

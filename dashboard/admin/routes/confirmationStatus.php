@@ -44,9 +44,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
 
     if($change_account){
-        if($status == "3"){
+        if($status == "1"){
             $sms_message = 'Hi '.ucwords($data['firstname']).' Your Account has been Accepted by the Administrator.';
-        }elseif($status == "1"){
+        }elseif($status == "3"){
             $sms_message = 'Hi '.ucwords($data['firstname']).' Your Account has been Decline by the Administrator.';
         }
 
