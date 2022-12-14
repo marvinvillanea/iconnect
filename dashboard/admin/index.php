@@ -151,6 +151,52 @@ if($islogin){
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+     <style>
+
+    /* The Modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      padding-top: 2%; /* Location of the box */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 40%;
+    }
+    .image_id {
+        margin: 0px auto;
+        width: auto;
+        text-align: center;
+    }
+
+    /* The Close Button */
+    .close {
+      color: #aaaaaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    </style>
     <!-- javascript -->
     <script src="js/index.js" defer></script>
     <script src="js/post_job.js" defer></script>
@@ -161,6 +207,7 @@ if($islogin){
     <script src="js/update_company.js" defer></script>
     <script src="js/delete_company.js" defer></script>
     <script src="../ckeditor/ckeditor.js"></script>
+   
 </head>
 <body>
     <div class="main">
@@ -826,6 +873,7 @@ if($islogin){
                                                             <span class="label">Last Login : </span>
                                                             <?= date("m/d/Y",strtotime($row["updated_at"]))?>
                                                         </p>
+                                                        <button type="button" id="<?php  echo $row["prof_id_image"]?>" onclick="showProfId(this.id, this.name)" name="3"  style="color: white; padding:10px; background-color: #36344d; padding-left: 30px; padding-right: 30px;border-radius: 10px;">VIEW</button>
                                                         <button type="button" id="<?php  echo $row["id"]?>" onclick="updateAccountStatus(this.id, this.name)" name="3"  style="color: white; padding:10px; background-color: #36344d; padding-left: 30px; padding-right: 30px;border-radius: 10px;">DECLINE</button>
                                                         <button type="button" id="<?php  echo $row["id"]?>" onclick="updateAccountStatus(this.id,this.name)" name="1"   style="color: white; padding:10px; background-color: #36344d; padding-left: 30px; padding-right: 30px;border-radius: 10px;">ACCEPT</button>
                                                     </div>
@@ -845,6 +893,21 @@ if($islogin){
                 <?php }else{ navigate("?page=accounts&sub=list"); }?>
             <?php }else{ navigate("./"); }?>
         </div>
+    </div>
+
+    <!-- Modal -->
+    
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close" onclick="closeProfid()">&times;</span>
+        <div class="image_id" id="image_id">
+            <img src="" width="450" id="itemDetail">
+        </div>
+      </div>
+
     </div>
 </body>
 </html>
@@ -909,5 +972,16 @@ if($islogin){
             }
         });
         
+    }
+
+
+    function showProfId(id, name){
+        $('#myModal').show();
+        $("img#itemDetail").attr('src' , id);
+
+    }
+
+    function closeProfid(){
+          $('#myModal').hide();
     }
 </script>

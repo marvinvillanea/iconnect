@@ -25,7 +25,7 @@
 
 
 
-             <form action="" class="form register_company">
+             <form action="" class="form register_company" enctype="multipart/form-data">
               <input type="hidden" name="account_type" value="<?= $type ?>">
                <div class="row setup-content" id="step-1">
                  <div class="col-md-12 ">
@@ -54,6 +54,9 @@
                     <div class="form-group">
                        <label class="control-label">Address.</label>
                        <input  required="required" class="form-control" placeholder="Enter Address" type="text" name="address" value="">
+                     </div>
+                     <label class="control-label">Upload One Valid ID. </label>Supported Ext.(jpg,jpeg,png)
+                       <input  required="required" class="form-control"  type="file" name="valid_photo" value="" >
                      </div>
                    </div>
                    <button class="btn btn-primary nextBtn btn-lg pull-right" type="button">Next</button>

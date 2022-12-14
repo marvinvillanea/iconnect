@@ -66,6 +66,17 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         message(false,"Please select department.");
     }
 
+    $allowed = array('jpeg', 'png', 'jpg');
+    $filename = $_FILES['valid_photo']['name'][0];
+    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    if (!in_array($ext, $allowed)) {
+        message(false,"Image must be jpeg, png, jpg.");
+    }
+    // echo '<pre>';
+    // print_r($_POST);
+    // print_r($_FILES);
+    // echo '</pre>';
+
     //check if email is already registered
     $check_email = mysqli_query($con,"SELECT * FROM `tbl_accounts` WHERE `email` = '$email'");
     if($check_email) {
@@ -75,55 +86,75 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     }else{
         message(false,"There was a problem with your email address.");
     }
-    
-    //register_account
-    $register_account = mysqli_query($con,"
-    INSERT INTO `tbl_accounts`(
-        `firstname`,
-        `lastname`,
-        `cnum`,
-        `bday`,
-        `age`,
-        `address`,
-        `email`,
-        `password`,
-        `type`,
-        `department`,
-       `facebook`,
-       `linkedin`,
-       `instagram`,
-       `degree_title`,
-       `school_name`,
-       `school_address`,
-       `school_year_attended`,
-       `achievement`
-    )
-    VALUES(
-            '$fname',
-            '$lname',
-            '$cnum',
-            '$bday',
-            $age,
-            '$address',
-            '$email',
-            '$password',
-            $account_type,
-            '$department',
-            '$facebook',
-            '$linkedin',
-            '$instagram',
-            '$degree_title',
-            '$school_name',
-            '$school_address',
-            '$school_year_attended',
-            '$achievement'
-        )
-    ");
 
-    if($register_account){
-        message(true,"Your account has been registered!");
-    }else{
+    $fileTmpPath = $_FILES['valid_photo']['tmp_name'][0];
+    $fileName = $_FILES['valid_photo']['name'][0];
+    $fileSize = $_FILES['valid_photo']['size'][0];
+    $fileType = $_FILES['valid_photo']['type'][0];
+    $fileNameCmps = explode(".", $fileName);
+    $fileExtension = strtolower(end($fileNameCmps));
+    $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+
+    // directory in which the uploaded file will be moved
+    $uploadFileDir = '../../assets/images/';
+    $dest_path = $uploadFileDir . $newFileName;
+    
+    if(move_uploaded_file($fileTmpPath, $dest_path)) {
+        //register_account
+        $register_account = mysqli_query($con,"
+        INSERT INTO `tbl_accounts`(
+            `firstname`,
+            `lastname`,
+            `cnum`,
+            `bday`,
+            `age`,
+            `address`,
+            `email`,
+            `password`,
+            `type`,
+            `department`,
+           `facebook`,
+           `linkedin`,
+           `instagram`,
+           `degree_title`,
+           `school_name`,
+           `school_address`,
+           `school_year_attended`,
+           `achievement`,
+           `prof_id_image`
+        )
+        VALUES(
+                '$fname',
+                '$lname',
+                '$cnum',
+                '$bday',
+                $age,
+                '$address',
+                '$email',
+                '$password',
+                $account_type,
+                '$department',
+                '$facebook',
+                '$linkedin',
+                '$instagram',
+                '$degree_title',
+                '$school_name',
+                '$school_address',
+                '$school_year_attended',
+                '$achievement',
+                '$dest_path'
+            )
+        ");
+
+        if($register_account){
+            message(true,"Your account has been registered!");
+        }else{
+            message(false,"Failed to register your account");
+        }
+    } else {
         message(false,"Failed to register your account");
     }
+    
+    
 }
 ?>

@@ -192,8 +192,8 @@ if($islogin == true){
                 
                 <input type="checkbox" name="accept_condition" id="accept_condition" class="accept_condition" value="accept"> 
                 <label id="accept_condition">Accept All the Agreement and Privacy Policy </label> <br>
-                  <input type="checkbox" name="accept_condition" id="accept_condition"  class="accept_condition" value="decline"> 
-                <label id="accept_condition">Decline All the Agreement and Privacy Policy </label>
+                  <input type="checkbox" name="accept_condition" id="decline_condition"  class="accept_condition" value="decline"> 
+                <label id="decline_condition">Decline All the Agreement and Privacy Policy </label>
              </div>
            </div>
            <!-- /.modal-content -->

@@ -29,7 +29,7 @@
 
 
 
-              <form action="" class="form register_account">
+              <form action="" class="form register_account" enctype="multipart/form-data">
                 <?php
                     $select_departments = mysqli_query($con,"SELECT `department` FROM `tbl_company` GROUP BY `department`");    
                 ?>
@@ -71,6 +71,10 @@
                           <?php }?>
                       </select>
                     </div>
+                    <div class="form-group">
+                    <label class="control-label">Upload One Valid ID. </label>Supported Ext.(jpg,jpeg,png)
+                       <input  required="required" class="form-control"  type="file" name="valid_photo" value="" >
+                     </div>
                    </div>
                    <button class="btn btn-primary nextBtn btn-lg pull-right" type="button">Next</button>
                  </div>

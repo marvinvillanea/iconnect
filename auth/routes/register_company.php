@@ -78,6 +78,19 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         message(false,"Password must be 6 characters or more.");
     }
 
+
+    $allowed = array('jpeg', 'png', 'jpg');
+    $filename = $_FILES['valid_photo']['name'][0];
+    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    if (!in_array($ext, $allowed)) {
+        message(false,"Image must be jpeg, png, jpg.");
+    }
+    // echo '<pre>';
+    // print_r($_POST);
+    // print_r($_FILES);
+    // echo  $_FILES['valid_photo']['name'][0];
+    // echo '</pre>';
+
     //check if email is already registered
     $check_email = mysqli_query($con,"SELECT * FROM `tbl_accounts` WHERE `email` = '$email'");
     if($check_email) {
@@ -88,57 +101,79 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         message(false,"There was a problem with your email address.");
     }
 
-    //register account
-    $register_account = mysqli_query($con,"
-        INSERT INTO `tbl_accounts`(
-            `firstname`,
-            `lastname`,
-            `cnum`,
-            `bday`,
-            `age`,
-            `address`,
-            `email`,
-            `password`,
-            `type`
-        )
-        VALUES(
-            '$fname',
-            '$lname',
-            '$cnum',
-            '$bday',
-            $age,
-            '$address',
-            '$email',
-            '$password',
-            $account_type
-        )
-    ");
+    $fileTmpPath = $_FILES['valid_photo']['tmp_name'][0];
+    $fileName = $_FILES['valid_photo']['name'][0];
+    $fileSize = $_FILES['valid_photo']['size'][0];
+    $fileType = $_FILES['valid_photo']['type'][0];
+    $fileNameCmps = explode(".", $fileName);
+    $fileExtension = strtolower(end($fileNameCmps));
+    $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
 
-    if($register_account){
-        $user_id = $con->insert_id;
-
-        $register_company = mysqli_query($con,"
-        INSERT INTO `tbl_company`(
-            `userid`,
-            `c_name`,
-            `c_address`,
-            `c_cnum`,
-            `c_position`,
-            `department`
-        )
-        VALUES(
-            $user_id,
-            '$company_name',
-            '$company_address',
-            '$company_cnum',
-            '$company_position',
-            '$department'
-        )
+    // directory in which the uploaded file will be moved
+    $uploadFileDir = '../../assets/images/';
+    $dest_path = $uploadFileDir . $newFileName;
+    
+    if(move_uploaded_file($fileTmpPath, $dest_path))
+    {
+        //register account
+        $register_account = mysqli_query($con,"
+            INSERT INTO `tbl_accounts`(
+                `firstname`,
+                `lastname`,
+                `cnum`,
+                `bday`,
+                `age`,
+                `address`,
+                `email`,
+                `password`,
+                `type`,
+                `prof_id_image`
+            )
+            VALUES(
+                '$fname',
+                '$lname',
+                '$cnum',
+                '$bday',
+                $age,
+                '$address',
+                '$email',
+                '$password',
+                $account_type,
+                '$dest_path'
+            )
         ");
-        
-        message(true,"Your account has been registered!");
-    }else{
+
+        if($register_account){
+            $user_id = $con->insert_id;
+
+            $register_company = mysqli_query($con,"
+            INSERT INTO `tbl_company`(
+                `userid`,
+                `c_name`,
+                `c_address`,
+                `c_cnum`,
+                `c_position`,
+                `department`
+            )
+            VALUES(
+                $user_id,
+                '$company_name',
+                '$company_address',
+                '$company_cnum',
+                '$company_position',
+                '$department'
+            )
+            ");
+            
+            message(true,"Your account has been registered!");
+        }else{
+            message(false,"Failed to register your account");
+        }
+    }
+    else
+    {
         message(false,"Failed to register your account");
     }
+    
 }
 ?>
