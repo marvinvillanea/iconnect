@@ -41,13 +41,18 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             WHERE
                 `id` = $id
         ");
-
+    //company
+    if($data["type"] == 2) {
+        $type = "Company";
+    } else {
+        $type = "Client";
+    }
 
     if($change_account){
         if($status == "1"){
-            $sms_message = 'Hi '.ucwords($data['firstname']).' Your Account has been Accepted by the Administrator.';
+            $sms_message = 'Hi '.ucwords($data['firstname']).'. Your '.$type.' account in LocalMJob has been approved.';
         }elseif($status == "3"){
-            $sms_message = 'Hi '.ucwords($data['firstname']).' Your Account has been Decline by the Administrator.';
+            $sms_message = 'Hi '.ucwords($data['firstname']).'. Your '.$type.' account in LocalMJob has been declined.';
         }
 
         try {
